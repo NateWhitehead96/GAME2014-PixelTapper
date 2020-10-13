@@ -16,6 +16,8 @@ public class SwipeControls : MonoBehaviour
     private Vector2 startTouchPosition;
     private Vector2 endTouchPosition;
 
+    public GameObject beerPrefab;
+
     // Update is called once per frame
     void Update()
     {
@@ -29,10 +31,17 @@ public class SwipeControls : MonoBehaviour
         if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
         {
             endTouchPosition = Input.GetTouch(0).position;
+           
+            if (endTouchPosition.x == startTouchPosition.x)
+            {
+                //SceneManager.LoadScene("GameOver");
+                // Will have the beverage spawn here instead of scene change.
+                Instantiate(beerPrefab, transform.position, Quaternion.identity);
+            }
 
             // For this game we only need vertical movement for the player
             // if there is a wipe up and the player isn't past the first keg
-            if((endTouchPosition.y > startTouchPosition.y) && transform.position.y < 3f)
+            if ((endTouchPosition.y > startTouchPosition.y) && transform.position.y < 3f)
             {
                 transform.position = new Vector2(transform.position.x, transform.position.y + 2);
             }
@@ -42,14 +51,16 @@ public class SwipeControls : MonoBehaviour
             {
                 transform.position = new Vector2(transform.position.x, transform.position.y - 2);
             }
+        }
+    }
 
-            // Lastly a Dev hack to switch to the game over scene
-            // If you just tap it will go to game over
-            if(endTouchPosition.x == startTouchPosition.x)
-            {
-                SceneManager.LoadScene("GameOver");
-                // Will have the beverage spawn here instead of scene change.
-            }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "empty")
+        {
+            // score point
+            // play sfx
+            Destroy(collision.gameObject);
         }
     }
 }
