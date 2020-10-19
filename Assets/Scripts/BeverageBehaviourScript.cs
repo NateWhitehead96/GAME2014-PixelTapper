@@ -19,6 +19,7 @@ public class BeverageBehaviourScript : MonoBehaviour
         if(transform.position.x > 1.3)
         {
             // lose a life
+            SwipeControls.lives -= 1;
             Destroy(gameObject);
         }
     }

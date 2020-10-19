@@ -7,25 +7,48 @@ public class Spawner : MonoBehaviour
     public GameObject[] patrons;
     public GameObject[] spawnPoints;
 
-    public float spawnTimer;
+    public float spawnTimer = 0f; // our current time
+    public float spawnSender = 5f; // how long to wait until sending new patron
+
+    private int totalSpawned = 0; // int to keep track of # of spawned patrons
+
+    public AudioSource spawnSound;
 
     // Update is called once per frame
     void Update()
     {
-        spawnTimer -= Time.deltaTime;
-
-        if (spawnTimer <= 0) // time to spawn a patron
+        if (spawnTimer >= spawnSender) // time to spawn a patron
         {
             SpawnPatron();
-            spawnTimer = 10;
+            spawnTimer = 0;
+            totalSpawned++;
+        }
+        else
+        {
+            spawnTimer += Time.deltaTime;
+        }
+        // Gradually increase speed of sender based on # of spawned and finally score
+        if (totalSpawned == 10)
+        {
+            spawnSender = 3f;
+        }
+        if (totalSpawned == 20)
+        {
+            spawnSender = 1f;
+        }
+        if (ScoreManager.score == 50)
+        {
+            spawnSender = 0.75f;
         }
     }
 
     private void SpawnPatron()
     {
+        // First randomizing spawn point to 1 of 4, then randomly choosing 1 of 2 patrons to send
         GameObject spawnPos = spawnPoints[Random.Range(0, spawnPoints.Length)];
         GameObject spawnedObject = patrons[Random.Range(0, patrons.Length)];
 
         Instantiate(spawnedObject, spawnPos.transform.position, Quaternion.identity);
+        spawnSound.Play();
     }
 }

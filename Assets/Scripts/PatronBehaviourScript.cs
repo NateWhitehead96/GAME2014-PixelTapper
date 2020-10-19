@@ -8,6 +8,8 @@ public class PatronBehaviourScript : MonoBehaviour
     public float speed;
     public GameObject emptyPrefab;
 
+    
+
     // Update is called once per frame
     void Update()
     {
@@ -21,6 +23,7 @@ public class PatronBehaviourScript : MonoBehaviour
         if (transform.position.x > 1.3)
         {
             // lose life
+            SwipeControls.lives -= 1;
             Destroy(gameObject);
         }
     }
@@ -30,6 +33,7 @@ public class PatronBehaviourScript : MonoBehaviour
         if(collision.gameObject.tag == "beer") // if the patron collides with beer, send him back
         {
             renderer.flipX = true;
+            ScoreManager.score += 1;
             speed *= -1;
             Destroy(collision.gameObject);
 

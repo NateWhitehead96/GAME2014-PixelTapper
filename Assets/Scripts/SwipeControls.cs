@@ -17,6 +17,20 @@ public class SwipeControls : MonoBehaviour
     private Vector2 endTouchPosition;
 
     public GameObject beerPrefab;
+    public AnimationClip pourClip;
+    
+    Animator animator;
+
+    public static int lives = 3;
+
+    public AudioSource beerFill;
+    public AudioSource emptyCollect;
+
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+        lives = 3;
+    }
 
     // Update is called once per frame
     void Update()
@@ -32,25 +46,32 @@ public class SwipeControls : MonoBehaviour
         {
             endTouchPosition = Input.GetTouch(0).position;
            
-            if (endTouchPosition.x == startTouchPosition.x)
-            {
-                //SceneManager.LoadScene("GameOver");
-                // Will have the beverage spawn here instead of scene change.
-                Instantiate(beerPrefab, transform.position, Quaternion.identity);
-            }
-
             // For this game we only need vertical movement for the player
-            // if there is a wipe up and the player isn't past the first keg
-            if ((endTouchPosition.y > startTouchPosition.y) && transform.position.y < 3f)
+            // if there is a swipe up and the player isn't past the first keg
+            if ((endTouchPosition.y > startTouchPosition.y + 2) && transform.position.y < 3f)
             {
                 transform.position = new Vector2(transform.position.x, transform.position.y + 2);
             }
 
             // if there is a swipe down and player isn't lower than last keg
-            if((endTouchPosition.y < startTouchPosition.y) && transform.position.y > -3f)
+            else if((endTouchPosition.y < startTouchPosition.y - 2) && transform.position.y > -3f)
             {
                 transform.position = new Vector2(transform.position.x, transform.position.y - 2);
             }
+
+            else if (endTouchPosition.x == startTouchPosition.x)
+            {
+                //animation.Play();
+                animator.Play("BeerPour");
+                beerFill.Play();
+                Instantiate(beerPrefab, transform.position, Quaternion.identity);
+            }
+        }
+
+        // if lives are 0 go to lose scene
+        if (lives == 0)
+        {
+            SceneManager.LoadScene("GameOver");
         }
     }
 
@@ -59,7 +80,9 @@ public class SwipeControls : MonoBehaviour
         if(collision.gameObject.tag == "empty")
         {
             // score point
+            ScoreManager.score += 1;
             // play sfx
+            emptyCollect.Play();
             Destroy(collision.gameObject);
         }
     }

@@ -116,7 +116,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -147,3 +147,4 @@ MonoBehaviour:
   renderer: {fileID: 7170106260402627026}
   speed: 1
   emptyPrefab: {fileID: 3269894244009694205, guid: ca90f28423d11914ca08c6cb932d756e, type: 3}
+  beerCollect: {fileID: 0}
