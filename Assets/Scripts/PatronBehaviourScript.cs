@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿/* PatronBehaviourScript
+ * Nathan Whitehead
+ * 101242269
+ * 2020-10-19
+ * Mobile Game Development GAME-2014
+ * This script is everything to control the patrons. Their moving and collisions.
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

@@ -1,8 +1,9 @@
 ﻿/* SceneManagerScript
  * Nathan Whitehead
  * 101242269
- * 2020-09-23
+ * 2020-10-19
  * Mobile Game Development GAME-2014
+ * This script controls the scene switching
  */
 
 using System.Collections;

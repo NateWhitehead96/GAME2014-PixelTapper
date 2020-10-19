@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿/* Spawner
+ * Nathan Whitehead
+ * 101242269
+ * 2020-10-19
+ * Mobile Game Development GAME-2014
+ * This script is for my custom spawner. It takes in all of the spawn points and potential patrons to randomize their
+ * location and which patrons spawns. It also controls the game difficulty.
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,6 +42,10 @@ public class Spawner : MonoBehaviour
             spawnSender = 3f;
         }
         if (totalSpawned == 20)
+        {
+            spawnSender = 1.5f;
+        }
+        if (totalSpawned == 30)
         {
             spawnSender = 1f;
         }
